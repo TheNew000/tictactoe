@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe using native JavaScript</title>
+<link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
+<link rel="stylesheet" type="text/css" href="styles.css"></head>
+<body>
+    <div id="title-wrapper">
+        <h1>TIC TAC TOE</h1>
+        <h2 id="message"></h2>
+        <div class="button">
+            <button id="AI" onclick="activateAI(1);">Play Alone LOSER!!</button><button id="Friends" onclick="activateAI(0);">Play W/ Friends!</button>
+        </div>
+    </div>
+    <div id="game-wrapper">
+        <div class="board-row-1 board-row">
+            <button class="box" id="A1" onclick="markSquare(this);">-</button>
+            <button class="box" id="A2" onclick="markSquare(this);">-</button>
+            <button class="box" id="A3" onclick="markSquare(this);">-</button>
+        </div>
+        <div class="board-row-2 board-row">
+            <button class="box" id="B1" onclick="markSquare(this);">-</button>
+            <button class="box" id="B2" onclick="markSquare(this);">-</button>
+            <button class="box" id="B3" onclick="markSquare(this);">-</button>
+        </div>
+        <div class="board-row-3 board-row">
+            <button class="box" id="C1" onclick="markSquare(this);">-</button>
+            <button class="box" id="C2" onclick="markSquare(this);">-</button>
+            <button class="box" id="C3" onclick="markSquare(this);">-</button>
+        </div>
+
+    </div>
+
+
+<script src="scripts.js" type="text/javascript"></script>
+</body>
+</html>
