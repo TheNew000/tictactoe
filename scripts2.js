@@ -1,6 +1,8 @@
 var whosTurn = [];
 var someoneWon = false;
-var initialMoves = [4, 0, 8, 7, 3];
+var initialMoves = [B2, A1, C3, C2, B1];
+var onePlayer = 0;
+var twoPlayer = 0;
 var winners = [
 ["A1", "A2", "A3"],
 ["B1", "B2", "B3"],
@@ -15,13 +17,13 @@ var moves = {
     A1: [["A3", "A2"], ["C3", "B2"], ["B1", "C1"]],
     A2: [["A3", "A1"], ["C2", "B2"]],
     A3: [["A1", "A2"], ["C1", "B2"], ["B3", "C3"]],
-    C3: [["A1", "B2"], ["A3", "B3"], ["C2", "C1"]],
+    B1: [["B3", "B2"], ["A1", "C1"]],
+    B2: [["A3", "C1"], ["C3", "A1"], ["B3", "B1"], ["C2", "A2"]],
+    B3: [["A3", "C3"], ["B1", "B2"]],
     C1: [["B2", "A3"], ["A1", "B1"], ["C2", "C3"]],
     C2: [["A2", "B2"], ["C1", "C3"]],
-    B1: [["B3", "B2"], ["A1", "C1"]],
-    B3: [["A3", "C3"], ["B1", "B2"]],
-    B2: [["A3", "C1"], ["C3", "A1"], ["B3", "B1"], ["C2", "A2"]]
-}
+    C3: [["A1", "B2"], ["A3", "B3"], ["C2", "C1"]]
+};
 var player1 = {
     A1: 0,
     A2: 0,
@@ -32,7 +34,7 @@ var player1 = {
     C1: 0,
     C2: 0,
     C3: 0
-}
+};
 var player2 = {
     A1: 0,
     A2: 0,
@@ -43,7 +45,7 @@ var player2 = {
     C1: 0,
     C2: 0,
     C3: 0
-}
+};
 var cells = {
     A1: 0,
     A2: 0,
@@ -54,7 +56,7 @@ var cells = {
     C1: 0,
     C2: 0,
     C3: 0
-}
+};
 var computer = {
     A1: 0,
     A2: 0,
@@ -65,31 +67,46 @@ var computer = {
     C1: 0,
     C2: 0,
     C3: 0
-}
+};
+var A1 = document.getElementById('A1');
+var A2 = document.getElementById('A2');
+var A3 = document.getElementById('A3');
+var B1 = document.getElementById('B1');
+var B2 = document.getElementById('B2');
+var B3 = document.getElementById('B3');
+var C1 = document.getElementById('C1');
+var C2 = document.getElementById('C2');
+var C3 = document.getElementById('C3');
+
 function whichGame(player){
-    var elements = document.getElementsByClassName(box);
-    if(onePlayer){
+    var elements = document.getElementsByClassName('box');
+    if(player == onePlayer){
         whosTurn.push(1, 0);
-    }else(twoPlayer){
+    }else{
         whosTurn.push(1, 2);
     }
 }
 
+for (property in player1) {
 
+}
 function markSquare(square){
-    if(someoneWon){
-        console.log("Someone already won");
-    }else if(whosTurn[i] == 1 && (!player1[square.id] && !computer[square.id])){
-        whatHappens(square, player1);
-        if(whosTurn[1] == 0){
-            checkMove();
+    console.log(square);
+    for (var i = 0; i < whosTurn.length; i++) {
+        if(whosTurn[i] == 1 && (player1[square.id] == 0 && computer[square.id] == 0)){
+            whatHappens(square, player1);
+            if(whosTurn[1] === 0){
+                return checkMove();
+            }
+        }else if (whosTurn === 0){
+            return whatHappens(square, computer);
+        }else if(whosTurn === 2){
+            return whatHappens(square, player2);
+        }else if(someoneWon){
+            return console.log("Someone already won");
+        }else{
+            return alert("Somethings already there!! No cheating!!");
         }
-    }else if (whosTurn == 0){
-        whatHappens(square, computer);
-    }else if(whosTurn == 2){
-        whatHappens(square, player2);
-    }else{
-        alert("Somethings already there!! No cheating!!");
     }
 }
 
@@ -103,29 +120,25 @@ function whatHappens(square, player){
     }
     cells[square.id] = 1;
     player[square.id] = 1;
-    checkWin2(player, 1);
-    checkMove();
-
+    checkWin(player, 1);
 }
-        
 
-
-
-function checkMove(){
+function checkMove(square){
     for (property in moves) {
         if (moves.hasOwnProperty(property)) {
             for (var i = 0; i < property.length; i++) {
                 var counter = 0;
                 for (var j = 0; j < property[i].length; j++) {
-                    if(player1[property[i][j]]){
+                    if(player1[property]){
                         counter++;
-                        if(counter == property[i].length && !cells[i]){
-                            markSquare(moves[i]);
+                        if(counter == property[i].length && (player1[square.id] == 0 && computer[square.id] == 0)){
+                            markSquare(property);
                         }
                     }else{
                         for (var k = 0; k < initialMoves.length; k++) {
-                            if(!cells[k]){ 
-                                markSquare(moves[k]);
+                            if(initialMoves[k] && (player1[square.id] == 0 && computer[square.id] == 0)){ 
+                                console.log(initialMoves[k]);
+                                // markSquare(initialMoves[k]);
                             }
                         }
                     }
