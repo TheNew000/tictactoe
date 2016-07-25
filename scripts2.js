@@ -1,6 +1,7 @@
-var whosTurn = [];
+var whosPlaying = [];
+var whosTurn;
 var someoneWon = false;
-var initialMoves = [B2, A1, C3, C2, B1];
+var initialMoves = ['B2', 'A1', 'C3', 'C2', 'B1'];
 var onePlayer = 0;
 var twoPlayer = 0;
 var winners = [
@@ -68,23 +69,15 @@ var computer = {
     C2: 0,
     C3: 0
 };
-var A1 = document.getElementById('A1');
-var A2 = document.getElementById('A2');
-var A3 = document.getElementById('A3');
-var B1 = document.getElementById('B1');
-var B2 = document.getElementById('B2');
-var B3 = document.getElementById('B3');
-var C1 = document.getElementById('C1');
-var C2 = document.getElementById('C2');
-var C3 = document.getElementById('C3');
 
 function whichGame(player){
     var elements = document.getElementsByClassName('box');
     if(player == onePlayer){
-        whosTurn.push(1, 0);
+        whosPlaying.push(player1, computer);
     }else{
-        whosTurn.push(1, 2);
+        whosPlaying.push(player1, player2);
     }
+    whosTurn = player1;
 }
 
 for (property in player1) {
@@ -92,54 +85,56 @@ for (property in player1) {
 }
 function markSquare(square){
     console.log(square);
-    for (var i = 0; i < whosTurn.length; i++) {
-        if(whosTurn[i] == 1 && (player1[square.id] == 0 && computer[square.id] == 0)){
+        if(whosTurn == player1 && (player1[square.id] == 0 && computer[square.id] == 0)){
             whatHappens(square, player1);
-            if(whosTurn[1] === 0){
+            if(whosPlaying[1] === computer){
                 return checkMove();
             }
-        }else if (whosTurn === 0){
+        }else if (whosTurn == computer){
             return whatHappens(square, computer);
-        }else if(whosTurn === 2){
+        }else if(whosTurn == player2){
             return whatHappens(square, player2);
         }else if(someoneWon){
             return console.log("Someone already won");
         }else{
             return alert("Somethings already there!! No cheating!!");
         }
-    }
 }
 
 function whatHappens(square, player){
-    if(player = player1){
+    if(player == player1){
         square.innerHTML = 'X';
-        whosTurn[1];
-    }else{
-        square.innerHTML = 'O';
-        whosTurn[0]
+        whosTurn = whosPlaying[1];
+        cells[square.id] = 1;
+        player[square.id] = 1;
+        checkWin(player);
+    }else if(player == player2 || player == computer){
+        var newCell = document.getElementById(square);
+        newCell.innerHTML = 'O';
+        whosTurn = whosPlaying[0];
+        cells[newCell.id] = 1;
+        player[newCell.id] = 1;
+        checkWin(player);
     }
-    cells[square.id] = 1;
-    player[square.id] = 1;
-    checkWin(player, 1);
 }
 
-function checkMove(square){
-    for (property in moves) {
+function checkMove(){
+    for (var property in moves) {
         if (moves.hasOwnProperty(property)) {
             for (var i = 0; i < property.length; i++) {
                 var counter = 0;
                 for (var j = 0; j < property[i].length; j++) {
                     if(player1[property]){
                         counter++;
-                        if(counter == property[i].length && (player1[square.id] == 0 && computer[square.id] == 0)){
-                            markSquare(property);
+                        console.log(property);
+                        if(counter == property[i].length && (player1[property] == 0 && computer[property] == 0)){
+                            return markSquare(property);
                         }
                     }else{
                         for (var k = 0; k < initialMoves.length; k++) {
-                            if(initialMoves[k] && (player1[square.id] == 0 && computer[square.id] == 0)){ 
-                                console.log(initialMoves[k]);
-                                // markSquare(initialMoves[k]);
-                            }
+                            if(initialMoves[k] && (player1[initialMoves[k]] == 0 && computer[initialMoves[k]] == 0)){
+                                return markSquare(initialMoves[k]);
+                            }   
                         }
                     }
                 }    
@@ -149,7 +144,7 @@ function checkMove(square){
 }
 
 
-function checkWin(currentPlayer, whoJustMarked){
+function checkWin(currentPlayer){
     var rowCount = 0;
     // Loops through the outer array
     for (var i = 0; i < winners.length; i++) {
@@ -159,7 +154,7 @@ function checkWin(currentPlayer, whoJustMarked){
             if(currentPlayer[winners[i][j]]){
                 rowCount++;
                 if(rowCount == winners[i].length){
-                    gameOver(whoJustMarked, winners[i]);
+                    gameOver(currentPlayer, winners[i]);
                     someoneWon = 1;
                 }
             }else if(cells[i]){
