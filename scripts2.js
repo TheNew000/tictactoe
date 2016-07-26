@@ -1,9 +1,12 @@
 var whosPlaying = [];
-var whosTurn;
+var whosTurn = 'player1';
 var someoneWon = false;
 var initialMoves = ['B2', 'A1', 'C3', 'C2', 'B1'];
 var onePlayer = 0;
 var twoPlayer = 0;
+var player1 = [];
+var player2 = [];
+var computer = [];
 var winners = [
 ["A1", "A2", "A3"],
 ["B1", "B2", "B3"],
@@ -25,28 +28,28 @@ var moves = {
     C2: [["A2", "B2"], ["C1", "C3"]],
     C3: [["A1", "B2"], ["A3", "B3"], ["C2", "C1"]]
 };
-var player1 = {
-    A1: 0,
-    A2: 0,
-    A3: 0,
-    B1: 0,
-    B2: 0,
-    B3: 0,
-    C1: 0,
-    C2: 0,
-    C3: 0
-};
-var player2 = {
-    A1: 0,
-    A2: 0,
-    A3: 0,
-    B1: 0,
-    B2: 0,
-    B3: 0,
-    C1: 0,
-    C2: 0,
-    C3: 0
-};
+// var player1Grid = {
+//     A1: 0,
+//     A2: 0,
+//     A3: 0,
+//     B1: 0,
+//     B2: 0,
+//     B3: 0,
+//     C1: 0,
+//     C2: 0,
+//     C3: 0
+// };
+// var player2Grid = {
+//     A1: 0,
+//     A2: 0,
+//     A3: 0,
+//     B1: 0,
+//     B2: 0,
+//     B3: 0,
+//     C1: 0,
+//     C2: 0,
+//     C3: 0
+// };
 var cells = {
     A1: 0,
     A2: 0,
@@ -58,39 +61,35 @@ var cells = {
     C2: 0,
     C3: 0
 };
-var computer = {
-    A1: 0,
-    A2: 0,
-    A3: 0,
-    B1: 0,
-    B2: 0,
-    B3: 0,
-    C1: 0,
-    C2: 0,
-    C3: 0
-};
+// var computer = {
+//     A1: 0,
+//     A2: 0,
+//     A3: 0,
+//     B1: 0,
+//     B2: 0,
+//     B3: 0,
+//     C1: 0,
+//     C2: 0,
+//     C3: 0
+// };
 
 function whichGame(player){
     var elements = document.getElementsByClassName('box');
     if(player == onePlayer){
-        whosPlaying.push(player1, computer);
+        whosPlaying.push('player1', 'computer');
     }else{
-        whosPlaying.push(player1, player2);
+        whosPlaying.push('player1', 'player2');
     }
-    whosTurn = player1;
 }
 
-for (property in player1) {
-
-}
 function markSquare(square){
-    console.log(square);
-        if(whosTurn == player1 && (player1[square.id] == 0 && computer[square.id] == 0)){
-            whatHappens(square, player1);
-            if(whosPlaying[1] === computer){
-                return checkMove();
+    console.log(whosTurn);
+        if(whosTurn == 'player1' && cells[square.id] == 0){
+            whatHappens(square, 'player1');
+            if(whosPlaying[1] === 'computer'){
+                checkMove();
             }
-        }else if (whosTurn == computer){
+        }else if (whosTurn == 'computer'){
             return whatHappens(square, computer);
         }else if(whosTurn == player2){
             return whatHappens(square, player2);
@@ -102,19 +101,24 @@ function markSquare(square){
 }
 
 function whatHappens(square, player){
-    if(player == player1){
+    if(player == 'player1'){
         square.innerHTML = 'X';
-        whosTurn = whosPlaying[1];
         cells[square.id] = 1;
-        player[square.id] = 1;
-        checkWin(player);
-    }else if(player == player2 || player == computer){
-        var newCell = document.getElementById(square);
-        newCell.innerHTML = 'O';
+        player1.push(square.id);
+        checkWin(player1);
+        whosTurn = whosPlaying[1];
+    }else if(player == 'player2' || player == 'computer'){
+        console.log(square);
+        square.innerHTML = 'O';
+        cells[square.id] = 1;
+        if (player == 'player2'){
+            player2.push(square.id);
+            checkWin(player2);
+        }else{
+            computer.push(square.id);
+            checkWin(computer); 
+        }
         whosTurn = whosPlaying[0];
-        cells[newCell.id] = 1;
-        player[newCell.id] = 1;
-        checkWin(player);
     }
 }
 
@@ -122,18 +126,20 @@ function checkMove(){
     for (var property in moves) {
         if (moves.hasOwnProperty(property)) {
             for (var i = 0; i < property.length; i++) {
-                var counter = 0;
                 for (var j = 0; j < property[i].length; j++) {
-                    if(player1[property]){
-                        counter++;
-                        console.log(property);
-                        if(counter == property[i].length && (player1[property] == 0 && computer[property] == 0)){
-                            return markSquare(property);
+                    if(player1.indexOf(property[i][j]) > -1){
+                        var newProperty = property.toString();
+                        if(player1.indexOf(property[i][0]) > -1 && player1.indexOf(property[i][1]) > -1 && cells[newProperty] == 0){
+                            var newSquare = document.getElementById(newProperty)
+                            return markSquare(newSquare);
                         }
                     }else{
                         for (var k = 0; k < initialMoves.length; k++) {
-                            if(initialMoves[k] && (player1[initialMoves[k]] == 0 && computer[initialMoves[k]] == 0)){
-                                return markSquare(initialMoves[k]);
+                            if(player1.indexOf(initialMoves[k]) < 0 && cells[initialMoves[k]] == 0){
+                                var newMove = initialMoves[k].toString();
+                                var finalMove = document.getElementById(newMove);
+                                console.log(finalMove);
+                                return whatHappens(finalMove, 'computer');
                             }   
                         }
                     }
