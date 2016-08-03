@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Tic Tac Toe using native JavaScript</title>
+    <title>Tic Tac Toe using JavaScript & jQuery</title>
+
 <link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
-<link rel="stylesheet" type="text/css" href="styles.css"></head>
+<link rel="stylesheet" type="text/css" href="styles2.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+</head>
 <body>
     <div id="title-wrapper">
         <h1>TIC TAC TOE</h1>
         <h2 id="message"></h2>
-        <div class="button">
+        <div class="buttons">
             <button onclick="whichGame(onePlayer);">Play Alone LOSER!!</button>
             <button onclick="whichGame(twoPlayer);">Play W/ Friends!</button>
             <br>
-            <button onclick="location.reload();">Retry!</button>
+            <input type="button" id="restart" value="Try Again?"/>
         </div>
     </div>
-    <div id="game-wrapper">
-        <div class="board-row-1 board-row">
-            <button class="box" id="A1" onclick="markSquare(this);">-</button>
-            <button class="box" id="A2" onclick="markSquare(this);">-</button>
-            <button class="box" id="A3" onclick="markSquare(this);">-</button>
-        </div>
-        <div class="board-row-2 board-row">
-            <button class="box" id="B1" onclick="markSquare(this);">-</button>
-            <button class="box" id="B2" onclick="markSquare(this);">-</button>
-            <button class="box" id="B3" onclick="markSquare(this);">-</button>
-        </div>
-        <div class="board-row-3 board-row">
-            <button class="box" id="C1" onclick="markSquare(this);">-</button>
-            <button class="box" id="C2" onclick="markSquare(this);">-</button>
-            <button class="box" id="C3" onclick="markSquare(this);">-</button>
-        </div>
-
+    <div id="head-wrapper">
+        <div id="winner"></div>
+        <div id="move">AI's Move</div>
     </div>
-
+        <div id="game-wrapper">
+            <div class="board-row-1 board-row">
+                <button class="box" id="cell-00"></button>
+                <button class="box" id="cell-01"></button>
+                <button class="box" id="cell-02"></button>
+            </div>
+            <div class="board-row-1 board-row">
+                <button class="box" id="cell-10"></button>
+                <button class="box" id="cell-11"></button>
+                <button class="box" id="cell-12"></button>
+            </div>
+            <div class="board-row-1 board-row">
+                <button class="box" id="cell-20"></button>
+                <button class="box" id="cell-21"></button>
+                <button class="box" id="cell-22"></button>
+            </div>
+        </div>
 
 <script src="scripts2.js" type="text/javascript"></script>
 </body>

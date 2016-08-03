@@ -1,0 +1,43 @@
+#title-wrapper{
+    padding: 30px;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 640px;
+    min-width: 320px;
+    font-size: 48px;
+}
+
+#game-wrapper, #game2-wrapper{
+    background-color: black;
+    max-width: 640px;
+    min-width: 320px;
+    width: 75%;
+    margin: auto;
+}
+
+.board-row{
+    display: block;
+    padding: 0px;
+    height: auto;
+    overflow: hidden;
+    margin-bottom: 5%;
+}
+
+.board-row button{
+    width: 30%;
+    background-color: white;
+    border: none;
+    margin-left: 5%;
+    padding: 30px 0;
+    float: left;
+    font-size: 80px;
+    height: 150px;
+}
+
+.board-row button:first-child{
+    margin-left: 0;
+}
+
+.box.winner{
+    background-color: red;
+}
