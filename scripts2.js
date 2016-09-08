@@ -3,32 +3,32 @@ var board = [
     [null, null, null],
     [null, null, null]
 ];
-var myMove = false;
+var playerMove = false;
 var numNodes = 0;
-var bools;
+var booleans;
 
 $(document).ready(function() {
     $(".box").click(function() {
         var cell = $(this).attr("id");
         var row = parseInt(cell[cell.length - 2]);
         var col = parseInt(cell[cell.length - 1]);
-        if (!myMove) {
+        if (!playerMove) {
             board[row][col] = false;
-            myMove = true;
-            updateMove();
-            makeMove();
+            playerMove = true;
+            gameStatus();
+            markBoard();
         }
     });
     $("#restart").click(restartGame);
 });
 
-if (myMove) {
-    makeMove();
+if (playerMove) {
+    markBoard();
 }
 
-function updateMove() {
+function gameStatus() {
     updateCells();
-    var winner = getWinner(board);
+    var winner = check4Winner(board);
 
     if(winner == 1){
         $("#winner").text("Computer Won!");
@@ -39,44 +39,44 @@ function updateMove() {
     }else{
         $("#winner").text("");
     }
-    if(myMove){
+    if(playerMove){
         $("#move").text("Computer's Move");
     }else{
         $("#move").text("Your Move!");
     }
 }
 
-function getWinner(board) {
-    // Check if someone won
-    bools = [true, false];
-    var allCellsNull = true;
-    for (var k = 0; k < bools.length; k++) {
-        var value = bools[k];
+// Check to see if game is over
+function check4Winner(board) {
+    booleans = [true, false];
+    var nullCells = true;
+    for (var i = 0; i < booleans.length; i++) {
+        var value = booleans[i];
         
-        // Check rows, columns, and diagonals
+        // Check if winning combo is completed across diagonal, row, or columns (i.e. !null)
         var diagonalComplete1 = true;
         var diagonalComplete2 = true;
-        for (var i = 0; i < 3; i++) {
-            if (board[i][i] != value) {
+        for (var j = 0; j < 3; j++) {
+            if (board[j][j] != value) {
                 diagonalComplete1 = false;
             }
-            if (board[2 - i][i] != value) {
+            if (board[2 - j][j] != value) {
                 diagonalComplete2 = false;
             }
-            var rowComplete = true;
-            var colComplete = true;
-            for (var j = 0; j < 3; j++) {
-                if (board[i][j] != value) {
-                    rowComplete = false;
+            var completeRow = true;
+            var completeCol = true;
+            for (var k = 0; k < 3; k++) {
+                if (board[j][k] != value) {
+                    completeRow = false;
                 }
-                if (board[j][i] != value) {
-                    colComplete = false;
+                if (board[k][j] != value) {
+                    completeCol = false;
                 }
-                if (board[i][j] == null) {
-                    allCellsNull = false;
+                if (board[j][k] == null) {
+                    nullCells = false;
                 }
             }
-            if (rowComplete || colComplete) {
+            if (completeRow || completeCol) {
                 return value ? 1 : 0;
             }
         }
@@ -84,7 +84,7 @@ function getWinner(board) {
             return value ? 1 : 0;
         }
     }
-    if (allCellsNull) {
+    if (nullCells) {
         return -1;
     }
     return null;
@@ -93,32 +93,33 @@ function getWinner(board) {
 function updateCells() {
     for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
-            console.dir("#cell-" + i + "" + j);
+            console.dir("#box" + i + "" + j);
             if(board[i][j] == false){
-                $("#cell-" + i + "" + j).text("X");
+                $("#box" + i + "" + j).text("X");
             }else if(board[i][j] == true){
-                $("#cell-" + i + "" + j).text("O");
+                $("#box" + i + "" + j).text("O");
             }else{
-                $("#cell-" + i + "" + j).text("");
+                $("#box" + i + "" + j).text("");
             }
         }
     }
 }
 
-function makeMove() {
-    board = minimaxMove(board);
-    myMove = false;
-    updateMove();
+function markBoard() {
+    board = compMove(board);
+    playerMove = false;
+    gameStatus();
 }
 
-function minimaxMove(board) {
+function compMove(board) {
     numNodes = 0;
     return miniMax(board, true)[1];
 }
 
+
 function miniMax(board, player) {
     numNodes++;
-    var winner = getWinner(board);
+    var winner = check4Winner(board);
     if (winner != null) {
         switch(winner) {
             case 1:
@@ -155,15 +156,16 @@ function miniMax(board, player) {
     }
 }
 
+
 function restartGame() {
     board = [
         [null, null, null],
         [null, null, null],
         [null, null, null]
     ];
-    myMove = false;
-    updateMove();
+    playerMove = false;
+    gameStatus();
 }
 
 
-updateMove();
+gameStatus();
