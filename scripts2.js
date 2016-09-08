@@ -87,9 +87,6 @@ function whichGame(player){
     }
 }
 
-for (property in player1) {
-
-}
 function markSquare(square){
     console.log(square);
     for (var i = 0; i < whosTurn.length; i++) {
@@ -123,7 +120,7 @@ function whatHappens(square, player){
     checkWin(player, 1);
 }
 
-function checkMove(square){
+function checkMove(){
     for (property in moves) {
         if (moves.hasOwnProperty(property)) {
             for (var i = 0; i < property.length; i++) {
@@ -131,14 +128,15 @@ function checkMove(square){
                 for (var j = 0; j < property[i].length; j++) {
                     if(player1[property]){
                         counter++;
-                        if(counter == property[i].length && (player1[square.id] == 0 && computer[square.id] == 0)){
+
+                        if(counter == property[i].length && (player1[property.id] == 0 && computer[square.id] == 0)){
                             markSquare(property);
                         }
                     }else{
                         for (var k = 0; k < initialMoves.length; k++) {
                             if(initialMoves[k] && (player1[square.id] == 0 && computer[square.id] == 0)){ 
                                 console.log(initialMoves[k]);
-                                // markSquare(initialMoves[k]);
+                                markSquare(initialMoves[k]);
                             }
                         }
                     }
