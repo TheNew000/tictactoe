@@ -185,7 +185,7 @@ function checkMove(){
     }
 }
 
-function checkWin2(currentPlayer, whoJustMarked){
+function checkWin2(currentPlayer, whoJustPlayed){
     var rowCount = 0;
     // Loops through the outer array
     for (var i = 0; i < winners2.length; i++) {
@@ -197,7 +197,7 @@ function checkWin2(currentPlayer, whoJustMarked){
                 rowCount++;
             }
             if(rowCount == 3){
-                gameOver(whoJustMarked, winners2[i]);
+                gameOver(whoJustPlayed, winners2[i]);
             }
         }
     }

@@ -3,38 +3,68 @@
 <head>
     <title>Tic Tac Toe using native JavaScript</title>
 <link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="styles.css"></head>
+
 <body>
     <div id="title-wrapper">
+        <button class="btn btn1" onclick="whichGame(onePlayer);">
+            <i class="fa fa-laptop fa-4x" aria-hidden="true"></i>
+            <div>1 Player</div>
+        </button>
         <h1>TIC TAC TOE</h1>
+        <button class="btn btn2" onclick="whichGame(twoPlayer);">
+            <i class="fa fa-users fa-3x" aria-hidden="true"></i>
+            <div>2 Player</div>
+        </button>
         <h2 id="message"></h2>
-        <div class="button">
-            <button onclick="whichGame(onePlayer);">Play Alone LOSER!!</button>
-            <button onclick="whichGame(twoPlayer);">Play W/ Friends!</button>
+    </div>
+    <div class='control'>
+        <!-- div.intial displays the starting controls -->
+        <div class='intial'>
+            <div class='difficulty'>
+                <span class='level not-selected' id="blind">Blind</span>
+                <span class='level not-selected' id="novice">Novice</span>
+                <span class='level not-selected' id="master">Master</span>
+            </div>
+
+            <div class='start'>Start</div>
+        </div>
+        <!-- div.ingame displays in-game messages and controls -->
+        <div class='ingame' id="human">
+            <button class="retry" onclick="location.reload();">Retry!</button>
             <br>
-            <button onclick="location.reload();">Retry!</button>
+            It's your turn ...
+            <img src="robot.png" id="robot" class="robot" />
+            <br>
+        </div>
+        <div class='ingame' id="won">You won!</div>
+        <div class='ingame' id="lost">Computer Won!</div>
+        <div class='ingame' id="draw">It's a Draw!</div>
+        <br>
+    </div>
+    <br>
+    <div class = 'main-container'>
+        <div id="game-wrapper">
+            <div class="board-row-1 board-row">
+                <button class="cell" id="0">-</button>
+                <button class="cell" id="1">-</button>
+                <button class="cell" id="2">-</button>
+            </div>
+            <div class="board-row-2 board-row">
+                <button class="cell" id="3">-</button>
+                <button class="cell" id="4">-</button>
+                <button class="cell" id="5">-</button>
+            </div>
+            <div class="board-row-3 board-row">
+                <button class="cell" id="6">-</button>
+                <button class="cell" id="7">-</button>
+                <button class="cell" id="8">-</button>
+            </div>
         </div>
     </div>
-    <div id="game-wrapper">
-        <div class="board-row-1 board-row">
-            <button class="box" id="A1" onclick="markSquare(this);">-</button>
-            <button class="box" id="A2" onclick="markSquare(this);">-</button>
-            <button class="box" id="A3" onclick="markSquare(this);">-</button>
-        </div>
-        <div class="board-row-2 board-row">
-            <button class="box" id="B1" onclick="markSquare(this);">-</button>
-            <button class="box" id="B2" onclick="markSquare(this);">-</button>
-            <button class="box" id="B3" onclick="markSquare(this);">-</button>
-        </div>
-        <div class="board-row-3 board-row">
-            <button class="box" id="C1" onclick="markSquare(this);">-</button>
-            <button class="box" id="C2" onclick="markSquare(this);">-</button>
-            <button class="box" id="C3" onclick="markSquare(this);">-</button>
-        </div>
 
-    </div>
-
-
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="scripts2.js" type="text/javascript"></script>
 </body>
 </html>
