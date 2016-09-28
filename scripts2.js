@@ -65,10 +65,9 @@ var State = function(old) {
             return false; //update the state result
         } 
     };
-};
-
+}
 // Computer Player Function
-var compPlayer = function(level) {
+var CompPlayer = function(level) {
     var game = {};
     // minimax algorithm!!  Here it is folks:
     function miniMax(state) {
@@ -81,7 +80,7 @@ var compPlayer = function(level) {
             var openCell = state.emptyCells();
             //create a "tree of possibilities" using the open cells
             var possStates = openCell.map(function(pos) {
-                var action = new compMoves(pos);
+                var action = new CompMoves(pos);
                 var nextState = action.applyTo(state);
                 return nextState;
             });
@@ -110,7 +109,7 @@ var compPlayer = function(level) {
         var availCells = game.currentState.emptyCells();
         if(level == 'blind'){
             var cellRandom = availCells[Math.floor(Math.random() * availCells.length)];
-            var possMove = new compMoves(cellRandom);
+            var possMove = new CompMoves(cellRandom);
             var nextState = possMove.applyTo(game.currentState);
             ui.insertAt(cellRandom, turn);
             game.advanceTo(nextState);
@@ -118,7 +117,7 @@ var compPlayer = function(level) {
             //calculate the score for all the possible branch possibilities
             var availActions = availCells.map(function(pos) {
                 //create the object for the next move
-                var possMove =  new compMoves(pos); 
+                var possMove =  new CompMoves(pos); 
                 //get next state by applying the possMove
                 var nextState = possMove.applyTo(game.currentState); 
                 //calculate and set the possMove minmax value
@@ -126,7 +125,7 @@ var compPlayer = function(level) {
                 return possMove;
             });
             //sort the possible Moves list by score if it's the human players turn then sort the actions in a descending manner to have the possible Move with maximum miniMax value first otherwise sort in an ascending manner to have the poss move with minimum miniMax value first
-            var upOrDown = (turn === "X") ? compMoves.descend : compMoves.ascend;
+            var upOrDown = (turn === "X") ? CompMoves.descend : CompMoves.ascend;
             availActions.sort(upOrDown);
             // either choose the possibility for a randomly less optimal position for the novice or the most optimal position for the master
             if(level == 'novice'){
@@ -142,7 +141,7 @@ var compPlayer = function(level) {
     }
 };
 
-var compMoves = function(cell) {
+var CompMoves = function(cell) {
     // the cell to be marked
     this.markCell = cell;
     // the value of the state that the marked cell could lead to
@@ -161,7 +160,7 @@ var compMoves = function(cell) {
 };
 
 // sorts possible comp moves in ascending order returns integer
-compMoves.ascend = (firstAction, secondAction) => {
+CompMoves.ascend = (firstAction, secondAction) => {
     if(firstAction.miniMaxScore < secondAction.miniMaxScore)
         return -1; //indicates that firstAction goes before secondAction
     else if(firstAction.miniMaxScore > secondAction.miniMaxScore)
@@ -170,7 +169,7 @@ compMoves.ascend = (firstAction, secondAction) => {
         return 0; //indicates a tie
 }
 // sorts possible comp moves in descending order returns integer
-compMoves.descend = (firstAction, secondAction) => {
+CompMoves.descend = (firstAction, secondAction) => {
     if(firstAction.miniMaxScore > secondAction.miniMaxScore)
         return -1; //indicates that firstAction goes before secondAction
     else if(firstAction.miniMaxScore < secondAction.miniMaxScore)
@@ -178,10 +177,11 @@ compMoves.descend = (firstAction, secondAction) => {
     else
         return 0; //indicates a tie
 }
+
 // creates a "game object"
-var Game = function(compPlayer) {
+var Game = function(CompPlayer) {
     // initialize computer Player
-    this.comp = compPlayer;
+    this.comp = CompPlayer;
     // initialize the state of the board as it stands
     this.currentState = new State();
     //null stands for empty board cell
@@ -262,7 +262,7 @@ $(".level").each(function() {
         $('.selected').toggleClass('selected');
         $this.toggleClass('not-selected');
         $this.toggleClass('selected');
-        compPlayer.level = $this.attr("id");
+        CompPlayer.level = $this.attr("id");
     });
 });
 
@@ -270,7 +270,7 @@ $(".level").each(function() {
 $(".start").click(function() {
     var diffLevel = $('.selected').attr("id");
     if(typeof diffLevel !== "undefined") {
-        var aiPlayer = new compPlayer(diffLevel);
+        var aiPlayer = new CompPlayer(diffLevel);
         globals.game = new Game(aiPlayer);
         aiPlayer.plays(globals.game);
         globals.game.start();
@@ -309,12 +309,6 @@ ui.startRobotFlickering = function() {
     }, 500);
 };
 
-/*
- * stops the flickering effect on the robot image
- */
-ui.stopRobotFlickering = function() {
-    clearInterval(ui.robotFlickeringHandle);
-};
 
 // Switches the notifications at the bottom of the page
 ui.switchViewTo = function(turn) {

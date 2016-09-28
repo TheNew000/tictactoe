@@ -32,13 +32,11 @@
         </div>
         <!-- div.ingame displays in-game messages and controls -->
         <div class='ingame' id="human">
-            <button class="retry" onclick="location.reload();">Retry!</button>
-            <br>
             It's your turn ...
             <img src="robot.png" id="robot" class="robot" />
             <br>
         </div>
-        <div class='ingame' id="won">You won!</div>
+        <div class='ingame' id="won">You won with {{}}!</div>
         <div class='ingame' id="lost">Computer Won!</div>
         <div class='ingame' id="draw">It's a Draw!</div>
         <br>
@@ -63,6 +61,8 @@
             </div>
         </div>
     </div>
+    <br>
+    <button class="retry" onclick="location.reload();">Retry!</button>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script src="scripts2.js" type="text/javascript"></script>
